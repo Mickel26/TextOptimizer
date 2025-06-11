@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { icons } from "./constants/icons";
+import TextDisplay from "./components/TextDisplay";
 
 function App() {
   const [text, setText] = useState("");
-  const [optimizedText, setOptimizedText] = useState("");
+  const [optimizedText, setoptimizedText] = useState("");
 
-  const optimizeText = () => {
-    setOptimizedText(text);
+  const handleOptimize = () => {
+    setoptimizedText(text);
   };
 
   return (
@@ -22,21 +22,14 @@ function App() {
         />
         <button
           className="cursor-pointer mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-          onClick={optimizeText}
+          onClick={handleOptimize}
         >
           Optimize
         </button>
-        {optimizedText && (
-          <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
-            {/* <button>
-              <img src={icons.copy} alt="Copy to clipboard" className="inline-block mr-2" />
-            </button> */}
-            {optimizedText}
-          </div>
-        )}
+        <TextDisplay text={optimizedText} />
       </div>
     </>
   );
 }
 
-export default App
+export default App;
