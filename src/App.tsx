@@ -28,7 +28,9 @@ function App() {
         </button>
         {optimizedText && (
           <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
-            <img src={icons.copy}/>
+            {/* <button>
+              <img src={icons.copy} alt="Copy to clipboard" className="inline-block mr-2" />
+            </button> */}
             {optimizedText}
           </div>
         )}
