@@ -1,1 +1,10 @@
+@font-face {
+    font-family: Sora;
+    src: url("../src/assets/fonts/Sora-Regular.ttf");
+}
+
 @import "tailwindcss";
+
+:root {
+    --font-sora: Sora, sans-serif;
+}
