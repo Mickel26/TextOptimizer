@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { icons } from "./constants/icons";
 
 function App() {
   const [text, setText] = useState("");
@@ -27,6 +28,7 @@ function App() {
         </button>
         {optimizedText && (
           <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
+            <img src={icons.copy}/>
             {optimizedText}
           </div>
         )}
