@@ -1,12 +1,40 @@
 import { useState } from "react";
 import TextDisplay from "./components/TextDisplay";
+import stringSimilarity from "string-similarity-js";
 
 function App() {
   const [text, setText] = useState("");
-  const [optimizedText, setoptimizedText] = useState("");
+  const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number }[]; separators: string[] }>({ sentences: [], separators: [] });
 
   const handleOptimize = () => {
-    setoptimizedText(text);
+    const regex = /([^.!?;]+[.!?;])(\s*)/g;
+    const matches = [...text.matchAll(regex)];
+
+    const sentences = matches.map(m => m[1]);
+    const separators = matches.map(m => m[2]);
+
+    const results: { text: string; similarity: number }[] = [];
+
+    const stripLastChar = (s: string) => s.length > 0 ? s.slice(0, -1) : s;
+
+    for (let i = 0; i < sentences.length; i++) {
+      let maxSimilarity = 0;
+      const base = stripLastChar(sentences[i]);
+
+      for (let j = 0; j < sentences.length; j++) {
+        if (i !== j) {
+          const compare = stripLastChar(sentences[j]);
+          const similarity = stringSimilarity(base, compare);
+
+          if (similarity > maxSimilarity) {
+            maxSimilarity = similarity;
+          }
+        }
+      }
+      results.push({ text: sentences[i], similarity: maxSimilarity });
+    }
+
+    setoptimizedText({ sentences: results, separators });
   };
 
   return (
@@ -26,7 +54,7 @@ function App() {
         >
           Optimize
         </button>
-        <TextDisplay text={optimizedText} />
+        <TextDisplay sentences={optimizedText.sentences} separators={optimizedText.separators} />
       </div>
     </>
   );
