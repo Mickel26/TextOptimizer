@@ -4,7 +4,7 @@ import stringSimilarity from "string-similarity-js";
 
 function App() {
   const [text, setText] = useState("");
-  const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number }[]; separators: string[] }>({ sentences: [], separators: [] });
+  const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number; similarTo: number | null }[]; separators: string[] }>({ sentences: [], separators: [] });
 
   const handleOptimize = () => {
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
@@ -13,12 +13,13 @@ function App() {
     const sentences = matches.map(m => m[1]);
     const separators = matches.map(m => m[2]);
 
-    const results: { text: string; similarity: number }[] = [];
+    const results: { text: string; similarity: number; similarTo: number | null }[] = [];
 
     const stripLastChar = (s: string) => s.length > 0 ? s.slice(0, -1) : s;
 
     for (let i = 0; i < sentences.length; i++) {
       let maxSimilarity = 0;
+      let similarTo: number | null = null;
       const base = stripLastChar(sentences[i]);
 
       for (let j = 0; j < sentences.length; j++) {
@@ -28,10 +29,11 @@ function App() {
 
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
+            similarTo = j;
           }
         }
       }
-      results.push({ text: sentences[i], similarity: maxSimilarity });
+      results.push({ text: sentences[i], similarity: maxSimilarity, similarTo });
     }
 
     setoptimizedText({ sentences: results, separators });
