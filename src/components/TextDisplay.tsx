@@ -67,7 +67,7 @@ const TextDisplay = ({ sentences, separators }: TextDisplayProps) => {
 
     return (
         <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
-            {legendData.length > 0 && (
+            {legendData.length > 0 ? (
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-2">Legend</h2>
                     <ul className="flex flex-row flex-wrap gap-4 justify-center">
@@ -83,6 +83,10 @@ const TextDisplay = ({ sentences, separators }: TextDisplayProps) => {
                             </li>
                         ))}
                     </ul>
+                </div>
+            ) : (
+                <div className="mb-6 text-center text-green-600 font-semibold">
+                    ✅ No similar sentence pairs found. Everything is fine!
                 </div>
             )}
 
