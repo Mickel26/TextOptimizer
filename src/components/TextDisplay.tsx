@@ -16,9 +16,11 @@ const TextDisplay = ({ sentences, separators }: TextDisplayProps) => {
                 return (
                     <span key={index} className={textColor}>
                         {sentence.text}
-                        <span className="ml-2 text-xs text-gray-500">
-                            (Similarity: {sentence.similarity.toFixed(2)})
-                        </span>
+                        {sentence.similarity > 0.5 && (
+                            <span className="ml-2 text-xs text-gray-500">
+                                (Similarity: {(sentence.similarity * 100).toFixed(0)}%)
+                            </span>
+                        )}
                         {/* Use the original separator */}
                         {separators && separators[index] ? separators[index] : ""}
                     </span>
