@@ -10,12 +10,19 @@ function App() {
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
     const matches = [...text.matchAll(regex)];
 
-    const sentences = matches.map(m => m[1]);
-    const separators = matches.map(m => m[2]);
+    let sentences = matches.map(m => m[1]);
+    let separators = matches.map(m => m[2]);
+
+    const lastMatch = matches.length ? matches[matches.length - 1] : null;
+    const lastIndex = lastMatch ? lastMatch.index! + lastMatch[0].length : 0;
+    if (text.slice(lastIndex).trim().length > 0) {
+      sentences.push(text.slice(lastIndex).trim());
+      separators.push("");
+    }
 
     const results: { text: string; similarity: number; similarTo: number | null }[] = [];
 
-    const stripLastChar = (s: string) => s.length > 0 ? s.slice(0, -1) : s;
+    const stripLastChar = (s: string) => s.length > 0 ? s.replace(/[.!?;]$/, "") : s;
 
     for (let i = 0; i < sentences.length; i++) {
       let maxSimilarity = 0;
