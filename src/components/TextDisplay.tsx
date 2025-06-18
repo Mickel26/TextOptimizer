@@ -70,8 +70,8 @@ const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayPr
         <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
             {legendData.length > 0 ? (
                 <div className="mb-6">
-                    <h2 className="text-lg font-semibold mb-2">Legend</h2>
-                    <ul className="flex flex-row flex-wrap gap-4 justify-center">
+                    <h2 className="text-lg font-semibold mb-4">Legend</h2>
+                    <ul className="flex flex-row flex-wrap gap-4 justify-center mb-4">
                         {legendData.map((item, i) => (
                             <li key={i} className="flex items-center">
                                 <span
