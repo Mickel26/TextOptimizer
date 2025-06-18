@@ -3,6 +3,7 @@ import { useMemo } from "react";
 interface TextDisplayProps {
     sentences: { text: string; similarity: number; similarTo: number | null }[];
     separators: string[];
+    optimized?: boolean;
 }
 
 function getRandomPastelColor(existingHues: Set<number>) {
@@ -17,7 +18,7 @@ function getRandomPastelColor(existingHues: Set<number>) {
     return `hsl(${hue}, 85%, 72%)`;
 }
 
-const TextDisplay = ({ sentences, separators }: TextDisplayProps) => {
+const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayProps) => {
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -85,9 +86,11 @@ const TextDisplay = ({ sentences, separators }: TextDisplayProps) => {
                     </ul>
                 </div>
             ) : (
-                <div className="mb-6 text-center text-green-600 font-semibold">
-                    ✅ No similar sentence pairs found. Everything is fine!
-                </div>
+                optimized && (
+                    <div className="mb-6 text-center text-green-600 font-semibold">
+                        ✅ No similar sentence pairs found. Everything is fine!
+                    </div>
+                )
             )}
 
             {sentences.map((sentence, index) => {

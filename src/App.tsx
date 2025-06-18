@@ -63,7 +63,11 @@ function App() {
         >
           Optimize
         </button>
-        <TextDisplay sentences={optimizedText.sentences} separators={optimizedText.separators} />
+        <TextDisplay
+          sentences={optimizedText.sentences}
+          separators={optimizedText.separators}
+          optimized={optimizedText.sentences.length > 0}
+        />
       </div>
     </>
   );
