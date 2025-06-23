@@ -5,6 +5,7 @@ import stringSimilarity from "string-similarity-js";
 function App() {
   const [text, setText] = useState("");
   const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number; similarTo: number | null }[]; separators: string[] }>({ sentences: [], separators: [] });
+  const [fixedText, setFixedText] = useState<string>("");
 
   const handleOptimize = () => {
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
@@ -44,32 +45,51 @@ function App() {
     }
 
     setoptimizedText({ sentences: results, separators });
+    setFixedText("");
+  };
+
+  const handleFix = (fixed: string) => {
+    setFixedText(fixed);
   };
 
   return (
-    <>
-      <div className="flex flex-col items-center min-h-screen bg-gray-100">
-        <h1 className="text-5xl font-bold mt-14">Text Optimizer</h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col items-center">
+      <h1 className="text-5xl font-extrabold mt-14 mb-10 text-blue-700 drop-shadow-lg tracking-tight">Text Optimizer</h1>
+      {/* Bigger input area */}
+      <div className="flex flex-col items-center w-full max-w-6xl mb-10">
         <textarea
-          className="mt-14 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 border focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[3rem]"
+          className="w-full max-w-3xl p-6 bg-white rounded-xl shadow-lg text-gray-800 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-y min-h-[12rem] text-lg transition"
           name="textInput"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          rows={9}
+          rows={14}
+          placeholder="Paste or type your text here..."
         />
         <button
-          className="cursor-pointer mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+          className="cursor-pointer mt-6 px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={handleOptimize}
         >
           Optimize
         </button>
-        <TextDisplay
-          sentences={optimizedText.sentences}
-          separators={optimizedText.separators}
-          optimized={optimizedText.sentences.length > 0}
-        />
       </div>
-    </>
+      {/* Results area below input, side by side and equal size */}
+      <div className="flex flex-row w-full max-w-6xl gap-10 justify-center items-start">
+        <div className="flex-1 flex flex-col items-center min-h-[32rem]">
+          <TextDisplay
+            sentences={optimizedText.sentences}
+            separators={optimizedText.separators}
+            optimized={optimizedText.sentences.length > 0}
+            onFix={handleFix}
+          />
+        </div>
+        {fixedText && (
+          <div className="flex-1 bg-white rounded-xl shadow-lg p-8 border border-blue-100 h-full flex flex-col min-h-[32rem]">
+            <h2 className="text-2xl font-bold mb-4 text-blue-700">Fixed Text</h2>
+            <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
