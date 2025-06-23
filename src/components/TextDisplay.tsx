@@ -110,7 +110,6 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
                 )
             )}
 
-            {/* Output text is now inside the styled area */}
             <div className="mb-2">
                 {sentences.map((sentence, index) => {
                     const colorArr = highlightColors.get(index) || [];
@@ -147,7 +146,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
             {optimized && legendData.length > 0 && (
                 <div className="flex justify-center">
                     <button
-                        className="cursor-pointer mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                        className="cursor-pointer mt-8 px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
                         onClick={handleFix}
                     >
                         Fix it
