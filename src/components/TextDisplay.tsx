@@ -87,7 +87,7 @@ const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayPr
                 </div>
             ) : (
                 optimized && (
-                    <div className="mb-6 text-center text-green-600 font-semibold">
+                    <div className="mb-3 text-center text-green-600 font-semibold">
                         ✅ No similar sentence pairs found. Everything is fine!
                     </div>
                 )

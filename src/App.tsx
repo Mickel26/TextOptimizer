@@ -34,6 +34,8 @@ function App() {
           const compare = stripLastChar(sentences[j]);
           const similarity = stringSimilarity(base, compare);
 
+          console.log(`Similarity between "${base}" and "${compare}":`, similarity);
+
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
             similarTo = j;
