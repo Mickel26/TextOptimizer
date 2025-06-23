@@ -19,6 +19,14 @@ function getRandomPastelColor(existingHues: Set<number>) {
 }
 
 const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayProps) => {
+    const outputText = sentences
+        .map((s, i) => s.text + (separators && separators[i] ? separators[i] : ""))
+        .join("");
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(outputText);
+    };
+    
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -67,7 +75,7 @@ const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayPr
     }, [sentences, highlightColors]);
 
     return (
-        <div className="mt-8 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
+        <div className="mt-6 w-1/2 p-4 bg-white rounded-lg shadow text-gray-800 whitespace-pre-wrap">
             {legendData.length > 0 ? (
                 <div className="mb-6">
                     <h2 className="text-lg font-semibold mb-4">Legend</h2>
@@ -123,6 +131,14 @@ const TextDisplay = ({ sentences, separators, optimized = false }: TextDisplayPr
                     </span>
                 );
             })}
+            <div className="flex justify-center">
+                <button
+                    className="cursor-pointer mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                    onClick={handleCopy}
+                >
+                    Copy
+                </button>
+            </div>
         </div>
     );
 };

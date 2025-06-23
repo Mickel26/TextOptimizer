@@ -27,14 +27,12 @@ function App() {
     for (let i = 0; i < sentences.length; i++) {
       let maxSimilarity = 0;
       let similarTo: number | null = null;
-      const base = stripLastChar(sentences[i]);
+      const base = stripLastChar(sentences[i]).toLowerCase();
 
       for (let j = 0; j < sentences.length; j++) {
         if (i !== j) {
-          const compare = stripLastChar(sentences[j]);
+          const compare = stripLastChar(sentences[j]).toLowerCase();
           const similarity = stringSimilarity(base, compare);
-
-          console.log(`Similarity between "${base}" and "${compare}":`, similarity);
 
           if (similarity > maxSimilarity) {
             maxSimilarity = similarity;
