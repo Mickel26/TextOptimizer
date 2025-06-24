@@ -4,7 +4,7 @@ interface TextDisplayProps {
     sentences: { text: string; similarity: number; similarTo: number | null }[];
     separators: string[];
     optimized?: boolean;
-    onFix?: (fixed: string) => void; // NEW
+    onFix?: (fixed: string) => void;
 }
 
 function getRandomPastelColor(existingHues: Set<number>) {
@@ -27,7 +27,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
     const handleCopy = () => {
         navigator.clipboard.writeText(outputText);
     };
-    
+
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -76,10 +76,27 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
     }, [sentences, highlightColors]);
 
     const handleFix = () => {
-        const fixedText = sentences.map(s => s.text).join("") + (separators ? separators.join("") : "");
-        navigator.clipboard.writeText(fixedText);
+        let textCopy = structuredClone(sentences)
+
+        //deleting duplicates
+        for (let i = 0; i < textCopy.length; i++) {
+            if (textCopy[i].similarity > 0.9 && textCopy[i].similarTo !== null) {
+                const similarSentenceIndex = textCopy[i].similarTo;
+                console.log("Removing sentence at index:", similarSentenceIndex, "because it is similar to index:", i);
+                if (similarSentenceIndex !== null)
+                {
+                    textCopy[similarSentenceIndex].text = "";
+                    textCopy[similarSentenceIndex].similarity = 0;
+                }
+            }
+        }
+
+        const fixedText = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
+        
+        // navigator.clipboard.writeText(fixedText); | DO KOPIOWANIA
+        console.log("Fixed text:", fixedText);
         if (onFix) {
-            onFix(fixedText); // Send fixed text to parent
+            onFix(fixedText);
         }
     };
 
@@ -87,7 +104,6 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
         <div className="mt-6 bg-white rounded-xl shadow-lg p-8 border border-blue-100 text-gray-800 whitespace-pre-wrap w-full">
             {legendData.length > 0 ? (
                 <div className="mb-6">
-                    <h2 className="text-2xl font-bold mb-4 text-blue-700">Legend</h2>
                     <ul className="flex flex-row flex-wrap gap-4 justify-center mb-4">
                         {legendData.map((item, i) => (
                             <li key={i} className="flex items-center">

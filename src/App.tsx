@@ -57,7 +57,7 @@ function App() {
       <h1 className="text-5xl font-extrabold mt-10 mb-6 text-blue-700 drop-shadow-lg tracking-tight">Text Optimizer</h1>
       <div className="flex mt-8 flex-col items-center w-full max-w-6xl mb-4">
         <textarea
-          className="w-full max-w-3xl p-6 bg-white rounded-xl shadow-lg text-gray-800 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-y min-h-[12rem] text-lg transition"
+          className="w-full max-w-6xl p-6 bg-white rounded-xl shadow-lg text-gray-800 border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-y min-h-[12rem] text-lg transition"
           name="textInput"
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -71,7 +71,6 @@ function App() {
           Optimize
         </button>
       </div>
-      {/* Results area below input, stacked vertically */}
       <div className="w-full max-w-6xl flex flex-col items-center gap-10">
         <div className="w-full flex flex-col items-center">
           <TextDisplay
