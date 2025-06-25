@@ -84,7 +84,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
         }
 
         let textWithoutDuplicates = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
-        const fixedText = await fix(textWithoutDuplicates)
+        const fixedText = await fix(textWithoutDuplicates, legendData)
 
         if (onFix && fixedText) {
             onFix(fixedText)
