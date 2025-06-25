@@ -84,7 +84,6 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
 
         const fixedText = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
 
-        // navigator.clipboard.writeText(fixedText); | DO KOPIOWANIA
         console.log("Fixed text:", fixedText);
         if (onFix) {
             onFix(fixedText);
