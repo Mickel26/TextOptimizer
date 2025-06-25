@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { fix } from "../backend/api";
 
 interface TextDisplayProps {
     sentences: { text: string; similarity: number; similarTo: number | null }[];
@@ -67,7 +68,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
         return legend;
     }, [sentences, highlightColors]);
 
-    const handleFix = () => {
+    const handleFix = async () => {
         let textCopy = structuredClone(sentences)
 
         //deleting duplicates
@@ -82,11 +83,11 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
             }
         }
 
-        const fixedText = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
+        let textWithoutDuplicates = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
+        const fixedText = await fix(textWithoutDuplicates)
 
-        console.log("Fixed text:", fixedText);
-        if (onFix) {
-            onFix(fixedText);
+        if (onFix && fixedText) {
+            onFix(fixedText)
         }
     };
 
