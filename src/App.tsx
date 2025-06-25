@@ -59,6 +59,12 @@ function App() {
     setFixedText(fixed);
   };
 
+  const handleCopy = () => {
+    if (fixedText) {
+      navigator.clipboard.writeText(fixedText);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col items-center">
       <h1 className="text-5xl font-extrabold mt-10 mb-6 text-blue-700 drop-shadow-lg tracking-tight">Text Optimizer</h1>
@@ -91,6 +97,14 @@ function App() {
           <div ref={fixedRef} className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
             <h2 className="text-2xl font-bold mb-4 text-blue-700">Fixed Text</h2>
             <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
+            <div className="flex justify-center">
+              <button
+                className="cursor-pointer mt-8 px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+                onClick={handleCopy}
+              >
+                Copy
+              </button>
+            </div>
           </div>
         )}
       </div>

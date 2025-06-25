@@ -20,14 +20,6 @@ function getRandomPastelColor(existingHues: Set<number>) {
 }
 
 const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDisplayProps) => {
-    const outputText = sentences
-        .map((s, i) => s.text + (separators && separators[i] ? separators[i] : ""))
-        .join("");
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(outputText);
-    };
-
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -83,8 +75,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
             if (textCopy[i].similarity > 0.9 && textCopy[i].similarTo !== null) {
                 const similarSentenceIndex = textCopy[i].similarTo;
                 console.log("Removing sentence at index:", similarSentenceIndex, "because it is similar to index:", i);
-                if (similarSentenceIndex !== null)
-                {
+                if (similarSentenceIndex !== null) {
                     textCopy[similarSentenceIndex].text = "";
                     textCopy[similarSentenceIndex].similarity = 0;
                 }
@@ -92,7 +83,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
         }
 
         const fixedText = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
-        
+
         // navigator.clipboard.writeText(fixedText); | DO KOPIOWANIA
         console.log("Fixed text:", fixedText);
         if (onFix) {
