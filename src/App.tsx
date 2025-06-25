@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import TextDisplay from "./components/TextDisplay";
 import stringSimilarity from "string-similarity-js";
+import { fix } from "./backend/api"
 
 function App() {
   const [text, setText] = useState("");
