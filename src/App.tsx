@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import TextDisplay from "./components/TextDisplay";
 import stringSimilarity from "string-similarity-js";
 
@@ -6,6 +6,13 @@ function App() {
   const [text, setText] = useState("");
   const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number; similarTo: number | null }[]; separators: string[] }>({ sentences: [], separators: [] });
   const [fixedText, setFixedText] = useState<string>("");
+  const fixedRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (fixedText && fixedRef.current) {
+      fixedRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [fixedText]);
 
   const handleOptimize = () => {
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
@@ -81,7 +88,7 @@ function App() {
           />
         </div>
         {fixedText && (
-          <div className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
+          <div ref={fixedRef} className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
             <h2 className="text-2xl font-bold mb-4 text-blue-700">Fixed Text</h2>
             <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
           </div>
