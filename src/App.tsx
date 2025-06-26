@@ -17,6 +17,10 @@ function App() {
   }, [fixedText]);
 
   const handleOptimize = async () => {
+    setFixedText("");
+
+    await new Promise(resolve => setTimeout(resolve, 10));
+
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
     const matches = [...text.matchAll(regex)];
 
@@ -54,7 +58,6 @@ function App() {
     }
 
     setoptimizedText({ sentences: results, separators });
-    setFixedText("");
   };
 
   const handleFix = (fixed: string, changes: string) => {
@@ -98,8 +101,9 @@ function App() {
         </div>
         {fixedText && (
           <div ref={fixedRef} className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
-            <h2 className="text-2xl font-bold mb-4 text-blue-700">Fixed Text</h2>
+            <h2 className="text-2xl font-bold text-blue-700">Fixed Text</h2>
             <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedTextChanges}</div>
+            <br></br>
             <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
             <div className="flex justify-center">
               <button

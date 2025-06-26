@@ -83,7 +83,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
             }
         }
 
-        const OGtext = sentences.map(s => s.text).join("") + (separators ? separators.join("") : "");
+        const OGtext = sentences.map((s, i) => s.text + (separators[i] || "")).join("");
 
         let textWithoutDuplicates = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
         const fixedText = await fix(textWithoutDuplicates, legendData, OGtext);
