@@ -8,6 +8,7 @@ function App() {
   const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number; similarTo: number | null }[]; separators: string[] }>({ sentences: [], separators: [] });
   const [fixedText, setFixedText] = useState<string>("");
   const fixedRef = useRef<HTMLDivElement>(null)
+  const [fixedTextChanges, setfixedTextChanges] = useState<string>("");
 
   useEffect(() => {
     if (fixedText && fixedRef.current) {
@@ -56,8 +57,9 @@ function App() {
     setFixedText("");
   };
 
-  const handleFix = (fixed: string) => {
+  const handleFix = (fixed: string, changes: string) => {
     setFixedText(fixed);
+    setfixedTextChanges(changes);
   };
 
   const handleCopy = () => {
@@ -97,6 +99,7 @@ function App() {
         {fixedText && (
           <div ref={fixedRef} className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
             <h2 className="text-2xl font-bold mb-4 text-blue-700">Fixed Text</h2>
+            <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedTextChanges}</div>
             <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
             <div className="flex justify-center">
               <button

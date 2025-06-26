@@ -5,7 +5,7 @@ interface TextDisplayProps {
     sentences: { text: string; similarity: number; similarTo: number | null }[];
     separators: string[];
     optimized?: boolean;
-    onFix?: (fixed: string) => void;
+    onFix?: (fixed: string, changes: string, OGtext: string) => void;
 }
 
 function getRandomPastelColor(existingHues: Set<number>) {
@@ -83,11 +83,15 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
             }
         }
 
-        let textWithoutDuplicates = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
-        const fixedText = await fix(textWithoutDuplicates, legendData)
+        const OGtext = sentences.map(s => s.text).join("") + (separators ? separators.join("") : "");
 
-        if (onFix && fixedText) {
-            onFix(fixedText)
+        let textWithoutDuplicates = textCopy.map(s => s.text).join("") + (separators ? separators.join("") : "");
+        const fixedText = await fix(textWithoutDuplicates, legendData, OGtext);
+        const fixedTextSplit = fixedText?.split("---");
+
+        if (onFix && fixedTextSplit) {
+            console.log(fixedTextSplit[1])
+            onFix(fixedTextSplit[0], fixedTextSplit[1], OGtext)
         }
     };
 
