@@ -15,7 +15,7 @@ function App() {
     }
   }, [fixedText]);
 
-  const handleOptimize = () => {
+  const handleOptimize = async () => {
     const regex = /([^.!?;]+[.!?;])(\s*)/g;
     const matches = [...text.matchAll(regex)];
 
