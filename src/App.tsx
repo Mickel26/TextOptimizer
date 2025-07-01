@@ -108,7 +108,7 @@ function App() {
             <div>
               <h2 className="text-xl font-semibold text-blue-600 mb-2">Changes</h2>
               <div className="whitespace-pre-wrap text-base text-gray-700 bg-blue-50 rounded-md p-4 border border-blue-200">
-                {fixedTextChanges}
+                {fixedTextChanges.replace(/^\s+/, "")}
               </div>
             </div>
 

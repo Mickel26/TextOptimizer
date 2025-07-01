@@ -2,16 +2,50 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GOOGLE_API_KEY });
 
-export const fix = async (text: string, data: Array<any> , OGtext: string)  => {
+export const fix = async (text: string, data: Array<any>, OGtext: string) => {
+    const prompt = `
+    You are a text revision expert.
+
+    Your task is to improve the following text by:
+    - Removing duplicate or very similar sentences
+    - Rewriting awkward, unclear, or repetitive sentences for better clarity
+    - Preserving the original meaning of the content
+
+    ✅ You may:
+    - Modify sentences to make them clearer or smoother
+    - Delete sentences only if they are clearly redundant or duplicates
+
+    🚫 Do NOT:
+    - Add any new ideas or sentences
+    - Change the order, layout, or formatting of the text
+    - Add headings, labels, or explanations
+    - Add extra spacing or blank lines
+
+    ✏️ Output format:
+    1. First, return only the improved version of the text (no label)
+    2. Then, clearly list what was changed: what was removed and what was rewritten
+    3. Separate the two parts using this exact delimiter:  
+    '---'
+
+    Use this similarity data to guide your decisions:  
+    ${JSON.stringify(data)}
+
+    Original version for reference when listing changes:  
+    ${OGtext}
+
+    Input text to revise:  
+    ${text}
+    `.trim();
+
     try {
         const response = await ai.models.generateContent({
             model: "gemma-3n-e4b-it",
-            contents: "You are an expert in text optimization. Your task is to fix the following text by removing duplicate sentences and improving clarity. Do not change the meaning of the text and do not change sentences that does not need fixing.  do not change the structure or layout of the text. Keep all line breaks, whitespace, and formatting exactly as in the input. If the text is a single block, it must remain that way. If it has line breaks, preserve them.Type your best fixed vision of the text: " + text + "Revise it also with this data that shows which sentences where marked similar by the system:" + data + "The only output you're going to write is the fixed text and what have been changed, shortly write the changes, keep in mind that the system may already deleted some duplicates so write them in changes, dont use the word changes at the start, just list them, just, original text: " + OGtext + ", the changes segment must be seperated from the text by '---'",
+            contents: prompt,
         });
-
+        console.log(response.text)
         return response.text;
     }
-    catch (error){
+    catch (error) {
         console.error(error);
         throw new Error("Failed to generate content")
     }
