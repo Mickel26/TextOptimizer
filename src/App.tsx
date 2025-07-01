@@ -100,15 +100,31 @@ function App() {
           />
         </div>
         {fixedText && (
-          <div ref={fixedRef} className="w-full mt-8 bg-white rounded-xl shadow-lg p-8 border border-blue-100 flex flex-col">
-            <h2 className="text-2xl font-bold text-blue-700">Fixed Text</h2>
-            <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedTextChanges}</div>
-            <br></br>
-            <div className="whitespace-pre-wrap text-lg text-gray-800 flex-1">{fixedText}</div>
-            <div className="flex justify-center">
+          <div
+            ref={fixedRef}
+            className="w-full mx-auto mt-10 bg-white rounded-2xl shadow-xl border border-blue-100 p-8 space-y-6"
+          >
+            {/* Change Log */}
+            <div>
+              <h2 className="text-xl font-semibold text-blue-600 mb-2">Changes</h2>
+              <div className="whitespace-pre-wrap text-base text-gray-700 bg-blue-50 rounded-md p-4 border border-blue-200">
+                {fixedTextChanges}
+              </div>
+            </div>
+
+            {/* Fixed Text */}
+            <div>
+              <h2 className="text-xl font-semibold text-blue-600 mb-2">Improved Text</h2>
+              <div className="whitespace-pre-wrap text-lg text-gray-800 bg-gray-50 rounded-md p-4 border border-gray-200">
+                {fixedText}
+              </div>
+            </div>
+
+            {/* Copy Button */}
+            <div className="flex justify-center pt-4">
               <button
-                className="cursor-pointer mt-8 px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
                 onClick={handleCopy}
+                className="mt-2 px-10 py-3 bg-gradient-to-r from-blue-600 to-blue-400 text-white text-lg font-semibold rounded-xl shadow-md hover:from-blue-700 hover:to-blue-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
               >
                 Copy
               </button>
