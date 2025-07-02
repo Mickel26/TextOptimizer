@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { fix } from "../backend/api";
 
 interface TextDisplayProps {
@@ -22,6 +22,8 @@ function getRandomPastelColor(existingHues: Set<number>) {
 }
 
 const TextDisplay = ({ sentences, separators, optimized = false, onFix, setLoading }: TextDisplayProps) => {
+    const optimizedRef = useRef<HTMLDivElement>(null)
+
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -69,6 +71,12 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix, setLoadi
         return legend;
     }, [sentences, highlightColors]);
 
+    useEffect(() => {
+        if (optimized && legendData.length > 0 && optimizedRef.current) {
+            optimizedRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [optimized, legendData.length]);
+
     const handleFix = async () => {
         setLoading(true);
         let textCopy = structuredClone(sentences)
@@ -101,7 +109,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix, setLoadi
     return (
         <>
             {optimized && legendData.length > 0 && (
-                <div className="mt-6 bg-white rounded-xl shadow-lg p-8 border border-blue-100 text-gray-800 whitespace-pre-wrap w-full">
+                <div ref={optimizedRef} className="mt-6 bg-white rounded-xl shadow-lg p-8 border border-blue-100 text-gray-800 whitespace-pre-wrap w-full">
                     <div className="mb-6">
                         <ul className="flex flex-row flex-wrap gap-4 justify-center mb-4">
                             {legendData.map((item, i) => (
