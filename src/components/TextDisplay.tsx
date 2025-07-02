@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { fix } from "../backend/api";
 
 interface TextDisplayProps {
