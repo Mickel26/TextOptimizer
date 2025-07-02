@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from "react";
 import TextDisplay from "./components/TextDisplay";
 import stringSimilarity from "string-similarity-js";
 
-
 function App() {
   const [text, setText] = useState("");
   const [optimizedText, setoptimizedText] = useState<{ sentences: { text: string; similarity: number; similarTo: number | null }[]; separators: string[] }>({ sentences: [], separators: [] });
   const [fixedText, setFixedText] = useState<string>("");
   const fixedRef = useRef<HTMLDivElement>(null)
   const [fixedTextChanges, setfixedTextChanges] = useState<string>("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (fixedText && fixedRef.current) {
@@ -97,8 +97,14 @@ function App() {
             separators={optimizedText.separators}
             optimized={optimizedText.sentences.length > 0}
             onFix={handleFix}
+            setLoading={setLoading}
           />
         </div>
+        {loading && !fixedText && (
+          <div className="flex justify-center mt-6">
+            <div className="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+          </div>
+        )}
         {fixedText && (
           <div
             ref={fixedRef}

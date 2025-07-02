@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { fix } from "../backend/api";
 
 interface TextDisplayProps {
@@ -6,6 +6,7 @@ interface TextDisplayProps {
     separators: string[];
     optimized?: boolean;
     onFix?: (fixed: string, changes: string, OGtext: string) => void;
+    setLoading: (v: boolean) => void;
 }
 
 function getRandomPastelColor(existingHues: Set<number>) {
@@ -20,7 +21,7 @@ function getRandomPastelColor(existingHues: Set<number>) {
     return `hsl(${hue}, 85%, 72%)`;
 }
 
-const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDisplayProps) => {
+const TextDisplay = ({ sentences, separators, optimized = false, onFix, setLoading }: TextDisplayProps) => {
     const highlightColors = useMemo(() => {
         const map = new Map<number, string[]>();
         const usedHues = new Set<number>();
@@ -69,6 +70,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
     }, [sentences, highlightColors]);
 
     const handleFix = async () => {
+        setLoading(true);
         let textCopy = structuredClone(sentences)
 
         //deleting duplicates
@@ -92,6 +94,7 @@ const TextDisplay = ({ sentences, separators, optimized = false, onFix }: TextDi
         if (onFix && fixedTextSplit) {
             console.log(fixedTextSplit[1])
             onFix(fixedTextSplit[0], fixedTextSplit[1], OGtext)
+            setLoading(false);
         }
     };
 
